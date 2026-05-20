@@ -109,7 +109,7 @@ body::before {
     opacity: 0.9;
 }
 
-/* গোল প্লে বাটন */
+/* গোল প্লে বাটন এবং অ্যানিমেশন */
 .play-btn {
     position: absolute;
     inset: 0;
@@ -126,6 +126,40 @@ body::before {
     padding-left: 2px;
     box-shadow: 0 0 15px rgba(255, 20, 147, 0.6);
     z-index: 2;
+    animation: pulse 1.8s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 20, 147, 0.7);
+    }
+    70% {
+        transform: scale(1.08);
+        box-shadow: 0 0 0 10px rgba(255, 20, 147, 0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 20, 147, 0);
+    }
+}
+
+/* ট্রেন্ডিং ব্যাজ */
+.trending-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: rgba(255, 20, 147, 0.9);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 12px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 
 /* টেক্সট সেকশন (Right) */
@@ -160,7 +194,23 @@ body::before {
     text-overflow: ellipsis;
 }
 
-/* টাইমস্ট্যাম্প */
+/* লাইভ কাউন্টার এবং মেটা সেকশন */
+.meta-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: auto;
+}
+
+.live-counter {
+    font-size: 11px;
+    color: #00ffcc;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
 .site {
     color: #ff1493;
     font-size: 11px;
@@ -168,7 +218,6 @@ body::before {
     display: flex;
     align-items: center;
     gap: 5px;
-    margin-top: auto;
 }
 
 /* পিঙ্ক টু অরেঞ্জ গ্রেডিয়েন্ট অ্যারো বাটন */
@@ -212,22 +261,86 @@ body::before {
 }
 
 @keyframes move {
-    from { transform: translateX(100%); }
+    from { transform: translateX(30%); }
     to { transform: translateX(-100%); }
+}
+
+/* লোডিং কঙ্কাল (Skeleton Effect) */
+.skeleton-card {
+    background: rgba(28, 21, 36, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-radius: 24px;
+    display: flex;
+    height: calc((100vh - 130px) / 4.2);
+    min-height: 115px;
+    max-height: 145px;
+    overflow: hidden;
+}
+
+.skeleton-left {
+    width: 45%;
+    background: rgba(255, 255, 255, 0.03);
+    position: relative;
+}
+
+.skeleton-right {
+    width: 55%;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.skeleton-line {
+    background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 4px;
+}
+
+.skeleton-title-1 { height: 16px; width: 90%; }
+.skeleton-title-2 { height: 16px; width: 60%; }
+.skeleton-text { height: 12px; width: 80%; margin-top: 4px; }
+.skeleton-meta { height: 11px; width: 50%; margin-top: auto; }
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
 }
 
 /* ছোট স্ক্রিনের জন্য অপ্টিমাইজেশন */
 @media(max-width: 360px) {
     .title { font-size: 13px; }
-    .card { min-height: 105px; }
+    .card, .skeleton-card { min-height: 105px; }
     .play-btn { width: 34px; height: 34px; font-size: 11px; }
+    .trending-badge { font-size: 9px; padding: 2px 6px; }
 }
 </style>
 </head>
 <body>
 
 <div class="wrapper">
-    <div class="container" id="cardsContainer"></div>
+    <div class="container" id="cardsContainer">
+        <!-- ইনিশিয়াল স্কেলেটন প্লেসহোল্ডার (ডাটা লোড হওয়ার আগ পর্যন্ত দেখাবে) -->
+        <div class="skeleton-card">
+            <div class="skeleton-left skeleton-line"></div>
+            <div class="skeleton-right">
+                <div class="skeleton-line skeleton-title-1"></div>
+                <div class="skeleton-line skeleton-title-2"></div>
+                <div class="skeleton-line skeleton-text"></div>
+                <div class="skeleton-line skeleton-meta"></div>
+            </div>
+        </div>
+        <div class="skeleton-card">
+            <div class="skeleton-left skeleton-line"></div>
+            <div class="skeleton-right">
+                <div class="skeleton-line skeleton-title-1"></div>
+                <div class="skeleton-line skeleton-title-2"></div>
+                <div class="skeleton-line skeleton-text"></div>
+                <div class="skeleton-line skeleton-meta"></div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="ticker">
@@ -259,28 +372,40 @@ second=Math.floor(Math.random()*cards.length)
 return [cards[first],cards[second]];
 }
 
-const selected=getTwoRandom();
-const box=document.getElementById('cardsContainer');
-selected.forEach(c=>{
-const randomMinute=Math.floor(Math.random()*119)+2;
-const timeText=randomMinute>=60
-?`${Math.floor(randomMinute/60)} ঘণ্টা আগে`
-:`${randomMinute} মিনিট আগে`;
+// একটি বাস্তবসম্মত লোডিং ইফেক্ট দেখানোর জন্য ৮০০ মিলিমেকেন্ড পর কার্ড রেন্ডার হবে
+setTimeout(() => {
+    const selected=getTwoRandom();
+    const box=document.getElementById('cardsContainer');
+    box.innerHTML = ''; // স্কেলেটন রিমুভ করে আসল কন্টেন্ট দেওয়া
 
-box.innerHTML+=`
-<a class="card" href="${c.link}">
-<div class="left">
-    <img src="${c.img}">
-    <div class="play-btn"><i class="fa-solid fa-play"></i></div>
-</div>
-<div class="right">
-    <div class="title">${c.title}</div>
-    <div class="subtitle">${c.desc}</div>
-    <div class="site"><i class="fa-solid fa-circle-radiation" style="font-size:10px;"></i> ${timeText}</div>
-    <div class="arrow"><i class="fa-solid fa-arrow-right"></i></div>
-</div>
-</a>`
-})
+    selected.forEach(c=>{
+    const randomMinute=Math.floor(Math.random()*119)+2;
+    const timeText=randomMinute>=60
+    ?`${Math.floor(randomMinute/60)} ঘণ্টা আগে`
+    :`${randomMinute} মিনিট আগে`;
+
+    // র্যান্ডম লাইভ ভিউয়ার জেনারেট করা (যেমন: 1.5K, 2.3K)
+    const liveWatch = (Math.random() * (2.9 - 1.0) + 1.0).toFixed(1);
+
+    box.innerHTML+=`
+    <a class="card" href="${c.link}">
+    <div class="left">
+        <div class="trending-badge"><i class="fa-solid fa-fire"></i> Trending</div>
+        <img src="${c.img}">
+        <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+    </div>
+    <div class="right">
+        <div class="title">${c.title}</div>
+        <div class="subtitle">${c.desc}</div>
+        <div class="meta-info">
+            <div class="live-counter"><i class="fa-solid fa-eye"></i> ${liveWatch}K watching now</div>
+            <div class="site"><i class="fa-solid fa-circle-radiation" style="font-size:10px;"></i> ${timeText}</div>
+        </div>
+        <div class="arrow"><i class="fa-solid fa-arrow-right"></i></div>
+    </div>
+    </a>`
+    });
+}, 800);
 </script>
 
 </body>
