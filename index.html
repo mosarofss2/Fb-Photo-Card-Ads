@@ -1,18 +1,20 @@
 <!DOCTYPE html><html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Card Landing</title>
-<!-- Facebook Preview -->
+
 <meta property="og:title" content="সকল প্রকার ভাইরাল ভিডিও সমাহার 🥵">
 <meta property="og:description" content="নতুন নতুন ভাইরাল ভিডিও দেখতে ক্লিক করুন">
-<meta property="og:image" content="facebook.jpg">
+<meta property="og:image" content="https://mosarofss2.github.io/facebook.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:type" content="website">
 
-<!-- Google Fonts & Font Awesome for Modern Look -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
@@ -20,65 +22,77 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* কোনো স্ক্রোল হবে না */
 }
 
 body {
-    min-height: 100vh;
-    overflow-x: hidden;
     background-image: url("background.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-attachment: fixed;
     font-family: 'Hind Siliguri', Arial, sans-serif;
-    padding: 24px 16px;
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between; /* উপর থেকে নিচ পর্যন্ত স্পেস ম্যানেজমেন্ট */
     align-items: center;
+    padding: 15px 12px;
 }
 
-/* আধুনিক ডার্ক ওভারলে গ্রেডিয়েন্ট */
+/* স্ক্রিনশটের মতো নিখুঁত ডার্ক ব্যাকগ্রাউন্ড ব্লেন্ড */
 body::before {
     content: "";
-    position: fixed;
+    position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(10, 10, 15, 0.85), rgba(20, 10, 25, 0.9));
-    z-index: -1;
+    background: radial-gradient(circle, rgba(28,22,33,0.85) 0%, rgba(13,10,18,0.95) 100%);
+    z-index: 1;
+}
+
+/* মেইন কন্টেইনার সব ডিভাইসে ফিট রাখার জন্য */
+.wrapper {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 480px;
+    height: calc(100% - 60px); /* নো-স্ক্রোলের জন্য টিক্যারের জায়গা রেখে হাইট ফিক্স */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
 }
 
 .container {
     width: 100%;
-    max-width: 600px;
-    margin: auto;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 14px;
 }
 
-/* প্রিমিয়াম কন্টেইনার কার্ড ডিজাইন */
+/* প্রিমিয়াম ওটিটি গ্লাস কার্ড ডিজাইন */
 .card {
     text-decoration: none;
-    background: rgba(255, 255, 255, 0.06);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 20px;
+    background: #1c1524;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 24px;
     display: flex;
     overflow: hidden;
     position: relative;
-    min-height: 150px;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    height: calc((100vh - 120px) / 4.5); /* ডাইনামিক রেসপন্সিভ হাইট */
+    min-height: 115px;
+    max-height: 145px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
-/* হোভার ইফেক্ট */
-.card:hover {
-    transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 20, 147, 0.6);
-    box-shadow: 0 15px 35px rgba(255, 20, 147, 0.25);
+.card:active, .card:hover {
+    transform: scale(0.99);
+    border-color: rgba(255, 20, 147, 0.4);
 }
 
 /* ইমেজ সেকশন (Left) */
@@ -86,6 +100,7 @@ body::before {
     width: 45%;
     position: relative;
     overflow: hidden;
+    background: #000;
 }
 
 .left img {
@@ -93,53 +108,44 @@ body::before {
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.5s ease;
+    opacity: 0.85;
 }
 
-.card:hover .left img {
-    transform: scale(1.08);
-}
-
-/* ওটিটি প্লে বাটন ওভারলে */
-.left::after {
-    content: "\f144";
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
+/* স্ক্রিনশটের মতো সঠিক গোল প্লে বাটন */
+.play-btn {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.3);
+    margin: auto;
+    width: 38px;
+    height: 38px;
+    background: #ff1493;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #ff1493;
-    font-size: 36px;
-    opacity: 0.85;
-    text-shadow: 0 0 15px rgba(255, 20, 147, 0.8);
-    transition: all 0.3s ease;
-}
-
-.card:hover .left::after {
     color: #fff;
-    opacity: 1;
-    font-size: 42px;
+    font-size: 14px;
+    padding-left: 2px;
+    box-shadow: 0 0 15px rgba(255, 20, 147, 0.6);
+    z-index: 2;
 }
 
 /* টেক্সট সেকশন (Right) */
 .right {
-    padding: 16px 20px;
+    padding: 12px 14px 12px 14px;
     width: 55%;
     color: #fff;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    position: relative;
 }
 
 .title {
-    font-size: 17px;
-    font-weight: 700;
-    line-height: 1.4;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.35;
     color: #ffffff;
-    margin-bottom: 6px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -147,106 +153,89 @@ body::before {
 }
 
 .subtitle {
-    font-size: 13px;
-    line-height: 1.4;
-    color: #b3b3b3;
+    font-size: 12px;
+    color: #9c9aa2;
     font-weight: 400;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-/* টাইমস্ট্যাম্প ডিজাইন */
+/* টাইমস্ট্যাম্প সেকশন */
 .site {
     color: #ff1493;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
     display: flex;
     align-items: center;
-    gap: 6px;
-    margin-top: 10px;
+    gap: 4px;
+    margin-top: auto;
 }
 
-/* প্রিমিয়াম গ্রেডিয়েন্ট ট্র্যাকিং বাটন বা অ্যারো */
+/* স্ক্রিনশটের মতো পিঙ্ক টু অরেঞ্জ গ্রেডিয়েন্ট অ্যারো বাটন */
 .arrow {
     position: absolute;
-    right: 16px;
-    bottom: 16px;
+    right: 12px;
+    bottom: 12px;
     background: linear-gradient(135deg, #ff1493, #ff4500);
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 14px;
-    box-shadow: 0 4px 10px rgba(255, 20, 147, 0.4);
-    transition: all 0.3s ease;
+    font-size: 11px;
+    box-shadow: 0 4px 10px rgba(255, 20, 147, 0.3);
 }
 
-.card:hover .arrow {
-    transform: scale(1.1) rotate(-45deg);
-    background: #fff;
-    color: #ff1493;
-}
-
-/* টিক্যার বা নোটিশ বোর্ড */
+/* বটম টিক্যার নোটিশ */
 .ticker {
+    position: relative;
+    z-index: 2;
     width: 100%;
-    max-width: 600px;
-    margin-top: 24px;
-    background: linear-gradient(90deg, rgba(255, 20, 147, 0.9), rgba(255, 69, 0, 0.9));
+    max-width: 480px;
+    background: linear-gradient(90deg, #ff1493, #ff4500);
     overflow: hidden;
-    padding: 14px;
-    border-radius: 16px;
-    box-shadow: 0 8px 25px rgba(255, 20, 147, 0.4);
+    padding: 10px;
+    border-radius: 14px;
+    box-shadow: 0 5px 15px rgba(255, 20, 147, 0.3);
+    margin-top: auto;
 }
 
 .tickerText {
     white-space: nowrap;
     color: white;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 700;
     display: inline-block;
-    animation: move 25s linear infinite;
+    animation: move 20s linear infinite;
 }
 
 @keyframes move {
-    from { transform: translateX(50%); }
+    from { transform: translateX(100%); }
     to { transform: translateX(-100%); }
 }
 
-/* রেস্পন্সিভনেস */
-@media(max-width: 480px) {
-    .card {
-        min-height: 130px;
-    }
-    .right {
-        padding: 12px 14px;
-    }
-    .title {
-        font-size: 15px;
-    }
-    .subtitle {
-        font-size: 12px;
-    }
-    .site {
-        font-size: 11px;
-    }
-    .left::after {
-        font-size: 28px;
-    }
-    .arrow {
-        width: 28px;
-        height: 28px;
-        font-size: 12px;
-        right: 12px;
-        bottom: 12px;
-    }
+/* ছোট ডিভাইসের জন্য অতিরিক্ত অপ্টিমাইজেশন */
+@media(max-width: 360px) {
+    .title { font-size: 13px; }
+    .subtitle { font-size: 11px; }
+    .card { min-height: 105px; }
+    .play-btn { width: 32px; height: 32px; font-size: 12px; }
 }
 </style>
 </head>
 <body>
 
-<div class="container" id="cardsContainer"></div>
+<div class="wrapper">
+    <div class="container" id="cardsContainer"></div>
+</div>
+
+<div class="ticker">
+    <div class="tickerText">🔥 আজকের ভাইরাল ভিডিও • নতুন ট্রেন্ডিং ভিডিও • লাইভ আপডেট • আরও দেখতে ক্লিক করুন • আপনার পছন্দের ভিডিওর উপর ক্লিক করে দেখে নিন এখনই 🥵 </div>
+</div>
 
 <script>
 const cards=[
@@ -283,20 +272,19 @@ const timeText=randomMinute>=60
 
 box.innerHTML+=`
 <a class="card" href="${c.link}">
-<div class="left"><img src="${c.img}"></div>
-<div class="right">
-<div class="title">${c.title}</div>
-<div class="subtitle">${c.desc}</div>
-<div class="site"><i class="fa-solid fa-fire"></i> ${timeText}</div>
+<div class="left">
+    <img src="${c.img}">
+    <div class="play-btn"><i class="fa-solid fa-play"></i></div>
 </div>
-<div class="arrow"><i class="fa-solid fa-arrow-right"></i></div>
+<div class="right">
+    <div class="title">${c.title}</div>
+    <div class="subtitle">${c.desc}</div>
+    <div class="site"><i class="fa-solid fa-circle-radiation" style="font-size:10px;"></i> ${timeText}</div>
+    <div class="arrow"><i class="fa-solid fa-arrow-right"></i></div>
+</div>
 </a>`
 })
 </script>
-
-<div class="ticker">
-    <div class="tickerText">🔥 আজকের ভাইরাল ভিডিও • নতুন ট্রেন্ডিং ভিডিও • লাইভ আপডেট • আরও দেখতে ক্লিক করুন • আপনার পছন্দের ভিডিওর উপর ক্লিক করে দেখে নিন এখনই 🥵 </div>
-</div>
 
 </body>
 </html>
