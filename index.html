@@ -25,10 +25,11 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+/* রিফ্রেশ সচল করার জন্য overflow লক তুলে দেওয়া হলো */
 html, body {
     width: 100%;
     height: 100%;
-    overflow: hidden; /* কোনো স্ক্রোল হবে না */
+    background-color: #0d0a12;
 }
 
 body {
@@ -36,35 +37,37 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    background-attachment: fixed;
     font-family: 'Hind Siliguri', Arial, sans-serif;
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* উপর থেকে নিচ পর্যন্ত স্পেস ম্যানেজমেন্ট */
+    justify-content: space-between;
     align-items: center;
-    padding: 15px 12px;
+    padding: 16px 14px;
 }
 
-/* স্ক্রিনশটের মতো নিখুঁত ডার্ক ব্যাকগ্রাউন্ড ব্লেন্ড */
+/* ব্যাকগ্রাউন্ড ইমেজটি সুন্দরভাবে ফুটিয়ে তোলার জন্য হালকা ডার্ক ওভারলে ও ব্লার */
 body::before {
     content: "";
-    position: absolute;
+    position: fixed;
     inset: 0;
-    background: radial-gradient(circle, rgba(28,22,33,0.85) 0%, rgba(13,10,18,0.95) 100%);
+    background: linear-gradient(180deg, rgba(20, 15, 25, 0.65) 0%, rgba(13, 10, 18, 0.85) 100%);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     z-index: 1;
 }
 
-/* মেইন কন্টেইনার সব ডিভাইসে ফিট রাখার জন্য */
+/* মেইন কন্টেইনার */
 .wrapper {
     position: relative;
     z-index: 2;
     width: 100%;
     max-width: 480px;
-    height: calc(100% - 60px); /* নো-স্ক্রোলের জন্য টিক্যারের জায়গা রেখে হাইট ফিক্স */
+    height: calc(100% - 65px);
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 14px;
 }
 
 .container {
@@ -74,25 +77,24 @@ body::before {
     gap: 14px;
 }
 
-/* প্রিমিয়াম ওটিটি গ্লাস কার্ড ডিজাইন */
+/* ওটিটি গ্লাস কার্ড ডিজাইন */
 .card {
     text-decoration: none;
-    background: #1c1524;
+    background: rgba(28, 21, 36, 0.85);
     border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 24px;
     display: flex;
     overflow: hidden;
     position: relative;
-    height: calc((100vh - 120px) / 4.5); /* ডাইনামিক রেসপন্সিভ হাইট */
+    height: calc((100vh - 130px) / 4.2);
     min-height: 115px;
     max-height: 145px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
     transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
-.card:active, .card:hover {
-    transform: scale(0.99);
-    border-color: rgba(255, 20, 147, 0.4);
+.card:active {
+    transform: scale(0.98);
 }
 
 /* ইমেজ সেকশন (Left) */
@@ -108,10 +110,10 @@ body::before {
     height: 100%;
     object-fit: cover;
     display: block;
-    opacity: 0.85;
+    opacity: 0.9;
 }
 
-/* স্ক্রিনশটের মতো সঠিক গোল প্লে বাটন */
+/* গোল প্লে বাটন */
 .play-btn {
     position: absolute;
     inset: 0;
@@ -124,7 +126,7 @@ body::before {
     align-items: center;
     justify-content: center;
     color: #fff;
-    font-size: 14px;
+    font-size: 13px;
     padding-left: 2px;
     box-shadow: 0 0 15px rgba(255, 20, 147, 0.6);
     z-index: 2;
@@ -132,7 +134,7 @@ body::before {
 
 /* টেক্সট সেকশন (Right) */
 .right {
-    padding: 12px 14px 12px 14px;
+    padding: 14px 14px;
     width: 55%;
     color: #fff;
     display: flex;
@@ -144,7 +146,7 @@ body::before {
 .title {
     font-size: 15px;
     font-weight: 600;
-    line-height: 1.35;
+    line-height: 1.4;
     color: #ffffff;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -162,22 +164,22 @@ body::before {
     text-overflow: ellipsis;
 }
 
-/* টাইমস্ট্যাম্প সেকশন */
+/* টাইমস্ট্যাম্প */
 .site {
     color: #ff1493;
     font-size: 11px;
     font-weight: 600;
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 5px;
     margin-top: auto;
 }
 
-/* স্ক্রিনশটের মতো পিঙ্ক টু অরেঞ্জ গ্রেডিয়েন্ট অ্যারো বাটন */
+/* পিঙ্ক টু অরেঞ্জ গ্রেডিয়েন্ট অ্যারো বাটন */
 .arrow {
     position: absolute;
-    right: 12px;
-    bottom: 12px;
+    right: 14px;
+    bottom: 14px;
     background: linear-gradient(135deg, #ff1493, #ff4500);
     width: 28px;
     height: 28px;
@@ -198,8 +200,8 @@ body::before {
     max-width: 480px;
     background: linear-gradient(90deg, #ff1493, #ff4500);
     overflow: hidden;
-    padding: 10px;
-    border-radius: 14px;
+    padding: 12px;
+    border-radius: 16px;
     box-shadow: 0 5px 15px rgba(255, 20, 147, 0.3);
     margin-top: auto;
 }
@@ -207,7 +209,7 @@ body::before {
 .tickerText {
     white-space: nowrap;
     color: white;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
     display: inline-block;
     animation: move 20s linear infinite;
@@ -218,12 +220,11 @@ body::before {
     to { transform: translateX(-100%); }
 }
 
-/* ছোট ডিভাইসের জন্য অতিরিক্ত অপ্টিমাইজেশন */
+/* ছোট স্ক্রিনের জন্য অপ্টিমাইজেশন */
 @media(max-width: 360px) {
     .title { font-size: 13px; }
-    .subtitle { font-size: 11px; }
     .card { min-height: 105px; }
-    .play-btn { width: 32px; height: 32px; font-size: 12px; }
+    .play-btn { width: 34px; height: 34px; font-size: 11px; }
 }
 </style>
 </head>
